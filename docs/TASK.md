@@ -2,7 +2,7 @@
 
 当前版本：`0.1.0-dev.0`
 
-当前状态：Local 0.1.0 candidate verified; publication approval pending
+当前状态：0.1.0本地候选已验证；旧版基线已备份GitHub。产品定义0.2已获批准，用户于2026-10-19授权提交推送本轮定义、PDF与日志。Tag/Release仍待独立审批。
 
 外部任务账本：
 `/Users/aim5/Documents/OB/04 Inbox/task/2026-08-02-【Auto Git】Auto Git 0.1.0 Skill 产品开发.md`
@@ -53,11 +53,13 @@
   完整 fingerprint 和 stale lock 诊断。
 - [x] 生成最终 38 文件 Native Plan，apply/verify 通过，纯 Skill 候选 91 项测试通过。
 - [ ] 如需面向公网正式发布，在布丁完成 published 状态并验证公开 URL。
-- [ ] 经独立审批完成 Auto Git 自身首次 Commit、真实远程 Push、Tag、Release 和安装试用。
+- [x] Auto Git首次Commit及GitHub远程备份（7b2f8b7）。
+- [x] 产品定义0.2及双版画布、完整PDF审核通过，验证父任务与5个子任务全部完成。
+- [ ] 经独立审批完成Tag、Release和安装试用。
 
 ## 当前禁止
 
-- 不执行 Commit、Push、创建真实远程仓库、tag 或 Release；
+- Commit、Push按具体授权执行；尚未授权tag或Release；
 - 不实际安装 Auto Git、Git、GitHub CLI 或 Global Skill；
 - 不把 ANK 或 Skill Engineering 变成 Auto Git 运行时依赖；
 - 不创建独立 pipx CLI 或 MCP Server；

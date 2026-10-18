@@ -6,6 +6,9 @@
 
 ### Added
 
+- 产品定义0.2六章正文、统一待解决问题、创业与传统经营两版画布及完整8页PDF；2026-10-18用户审核通过，验证父任务与5个子任务完成并同步OB/飞书。
+- 2026-10-19 AEF Docs Init检查报告：保留旧工作台，明确新版目录合同与工程门禁缺口；补充产品定义主文专用导出脚本。
+
 - 使用 ANK 初始化跨 Agent 工程化骨架。
 - 建立 Auto Git 独立产品、架构、Roadmap、Task、ADR、Sprint 和 Handoff 事实源。
 - 建立 `0.1.0` PRD、25 个 User Stories、逐故事验收条件和技术 Spec 追踪关系。
@@ -53,4 +56,4 @@
   README、用户 Playbook、Skill 入口、Spec/ADR 和布丁 draft 已同步修正。
 - Skill Engineering production creation review 100/A；最终 Native Plan fingerprint
   `c94d0611…a5fc0` 已 apply/verify/self-test。
-- 初始化本地 Git 仓库；未创建 Commit、远程仓库、Tag 或 Release。
+- 已初始化本地Git仓库，2026-10-18旧版基线提交7b2f8b7已推送GitHub；尚未创建Tag或Release。

@@ -2,7 +2,7 @@
   "project_name": "auto-git",
   "project_purpose": "面向普通用户和 Agent 的独立 Git 自动化产品：以自然语言完成安全、可追踪、可教学的版本管理",
   "project_path": "/Users/aim5/Documents/CodingProject/auto-git",
-  "project_remote": "尚未创建远程仓库",
+  "project_remote": "https://github.com/wukongai/auto-git",
   "db_project": "无",
   "db_name": "无",
   "db_mcp_name": "无",

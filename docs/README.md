@@ -2,6 +2,9 @@
 
 ## 产品事实源
 
+- 已审核产品定义0.2：[主文](PRODUCT.md)、[待解决问题](product-questions.md)、[完整8页PDF](../output/pdf/auto-git-product-definition-v0.2-reviewed.pdf)、[两版画布](references/product-definition-0.2-charts/canvases.html)。
+- [2026-10-19文档初始化检查](research/2026-10-19-aef-docs-init-audit.md)：旧工作台可用，新版六领域结构尚未迁移。
+
 - [`PRODUCT.md`](PRODUCT.md)：目标用户、价值、边界和产品形态。
 - [`PRD.md`](PRD.md)：`0.1.0` 需求分析、User Stories 和逐故事验收条件。
 - [`constitution.md`](constitution.md)：跨版本不可妥协原则。
