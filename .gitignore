@@ -1,0 +1,16 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.py[cod]
+node_modules/
+dist/
+build/
+coverage/
+.coverage
+.pytest_cache/
+.ruff_cache/
+.auto-git/
+*.log

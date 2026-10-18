@@ -1,0 +1,97 @@
+name: auto-git
+kind: orchestrator
+owner: self
+status: candidate
+
+purpose: >-
+  让普通用户通过 Agent 自然语言安全完成从 Git 环境准备到本地 Commit、Remote Push
+  和 GitHub Release，并保留机器事实、分阶段审批、验证记录和不丢文件的恢复路径。
+
+triggers:
+  use_when:
+    - "检查真实项目是否使用 Git，或安全初始化 Git。"
+    - "精确提交批准的文件并先展示不可变计划。"
+    - "创建/连接 Remote、Push 分支、Tag 或 GitHub Release。"
+    - "恢复或继续 Auto Git 已记录的操作。"
+  do_not_use_when:
+    - "只解释 Git 概念而不操作真实项目。"
+    - "PR、merge、force push、自动解决冲突或包注册表发布。"
+    - "修改、安装或发布 Auto Git Skill 自身。"
+
+inputs:
+  - name: repo_path
+    type: path
+    required: true
+  - name: intent
+    type: enum
+    required: true
+    values: [doctor, inspect, init, identity, commit, remote, push, release, recover, resume]
+  - name: approved_plan_hash
+    type: text
+    required: false
+
+outputs:
+  - name: facts
+    type: json
+    schema_version: "1"
+  - name: immutable_plan
+    type: json
+    schema_version: "1"
+  - name: operation_record
+    type: json
+    schema_version: "1"
+  - name: user_summary
+    type: text
+
+stops:
+  - name: missing_or_ambiguous_path
+    condition: "项目路径不存在或用户目标与路径不能确定。"
+  - name: unsafe_repository_state
+    condition: "仓库处于冲突、detached HEAD、远端领先/分叉或不可解析状态。"
+  - name: missing_stage_approval
+    condition: "写入阶段没有与已展示 plan hash 完全一致的批准。"
+  - name: drift_or_lock
+    condition: "plan、Brief、仓库 fingerprint 漂移或仓库锁被占用。"
+
+delegates:
+  - name: bundled_auto_git
+    kind: script
+    path: "scripts/auto_git.py"
+    when: "读取 facts、生成 plan、执行、验证和保存本地记录。"
+  - name: git
+    kind: executable
+    when: "通过参数数组读取或执行标准 Git。"
+  - name: github_cli
+    kind: executable
+    when: "GitHub 登录、仓库创建和 Release；凭证由 gh 管理。"
+
+approvals:
+  - "安装依赖、初始化、写 identity、Commit 分别审批。"
+  - "Remote create/connect、branch Push、annotated Tag、Tag Push、GitHub Release 分别审批。"
+  - "Global Skill 安装、Auto Git 自身 Commit/Push/Tag/Release 不由本 Skill执行。"
+
+forbidden:
+  - broad_staging
+  - force_push
+  - destructive_reset_or_clean
+  - automatic_stash_or_conflict_resolution
+  - credential_input_or_persistence
+  - shell_string_execution
+  - commit_or_publish_without_regression
+  - github_release_without_existing_verified_tag
+  - recovery_without_ownership_and_drift_check
+
+state:
+  default: "XDG_STATE_HOME/auto-git 或平台等价目录"
+  override: "AUTO_GIT_STATE_HOME"
+  files:
+    - "records/<plan-id>.json"
+    - "index-backups/<plan-id>.index"
+    - "locks/<repo-hash>.lock"
+  contains_credentials: false
+
+verification:
+  - "pytest 单元、临时 Git 仓库集成和本地 bare remote E2E。"
+  - "fake gh 验证参数和阶段，不访问真实远端。"
+  - "Skill Engineering content gate、creation review、Native Plan 和 self-test。"
+  - "ruff、compileall、未完成内容/凭证/危险命令扫描。"

@@ -1,0 +1,6 @@
+interface:
+  display_name: "Auto Git"
+  short_description: "自然语言安全完成 Git 安装、提交、Push 和 Release"
+  default_prompt: "使用 $auto-git 检查这个项目的 Git 状态；任何写入先给我看计划、风险和恢复路径，Commit、Push、Tag、Release 分别确认。"
+policy:
+  allow_implicit_invocation: true

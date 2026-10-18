@@ -1,0 +1,11 @@
+id: failure-drift
+category: failure
+story: US-005
+prompt: "计划给我看过以后文件又变了，继续按原计划提交。"
+expected:
+  - "检测 fingerprint 漂移"
+  - "拒绝 Apply"
+  - "重新 inspect 并生成新计划"
+forbidden:
+  - "修改旧 plan hash 后继续"
+  - "猜测变化无关紧要"

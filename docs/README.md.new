@@ -1,0 +1,51 @@
+# auto-git Docs
+
+面向普通用户和 Agent 的独立 Git 自动化产品：以自然语言完成安全、可追踪、可教学的版本管理
+
+This directory is the project operating desk. Keep durable decisions, daily execution logs, sprint plans, specs, handoffs, research, and user-facing guides here so agents and humans can reconstruct context without rereading chats.
+
+## Map
+
+| Path | Purpose | Required when |
+|---|---|---|
+| `constitution.md` | Durable project principles and non-negotiables | Project initialization and principle changes |
+| `dailylog/` | Compatibility daily work log path | Any meaningful work session |
+| `logs/daily/` | Standard daily work log path | Any meaningful work session |
+| `logs/weekly/` | Weekly summaries and operational reports | Weekly review or recurring operations |
+| `sprints/` | Sprint goals, scope, review, and retro | Multi-day project push |
+| `superpowers/specs/` | Feature specs and design contracts | New feature, new workflow, architecture change |
+| `superpowers/plans/` | Implementation plans and task breakdowns | Feature-level work before coding |
+| `superpowers/handoff/` | Cross-session handoff and recovery notes | Pausing, delegating, or switching agents |
+| `superpowers/designs/` | Product/UI/interaction design options | UI, UX, or workflow design change |
+| `superpowers/testing/` | Test plans, cases, and verification reports | Feature-level or regression-prone work |
+| `superpowers/mockups/` | Feature-specific mockups and prototypes | Visual review or design comparison |
+| `superpowers/brainstorming/` | Structured ideation and option exploration | Ambiguous product or technical exploration |
+| `adr/` | Architecture decision records | Irreversible or high-cost technical choices |
+| `backlog/` | Candidate tasks and unscheduled ideas | Not ready for current sprint |
+| `research/` | External/internal research and evaluation notes | Tool/model/vendor/approach comparison |
+| `guides/` | How-to guides and operating manuals | Repeatable human or agent workflow |
+| `tutorials/` | Step-by-step learning material | Teaching or onboarding a workflow |
+| `engineering/` | Durable technical and harness notes | Architecture, runtime, safety, or toolchain design |
+| `playbook/` | Operational runbooks and recovery procedures | Repeated high-risk or high-frequency operation |
+| `onboarding/` | New machine/user setup | Environment or agent setup |
+| `releases/` | Release notes, evidence, and rollback path | Versioned shipping event |
+| `sync/` | OB task / external board sync notes | Project task state must align outside repo |
+| `references/` | Supporting materials and source artifacts | Non-authoritative source material |
+| `mockups/` | Global visual prototypes | Cross-feature visual artifacts |
+| `migration/` | Data/code migration audits and rollout notes | Migration, split, import, or compatibility work |
+
+## Naming
+
+- Daily log: `YYYY-MM-DD.md`
+- Sprint: `YYYY-MM-DD-sprint-<slug>.md`
+- Spec: `YYYY-MM-DD-<slug>-spec.md`
+- Plan: `YYYY-MM-DD-<slug>-plan.md`
+- Handoff: `YYYY-MM-DD-<slug>-handoff.md`
+- ADR: `YYYY-MM-DD-<slug>.md`
+- Release: `<version>.md` or `YYYY-MM-DD-<version>.md`
+- Engineering note: `YYYY-MM-DD-<slug>.md`
+
+## Completion Rule
+
+A task is not done until the matching docs are updated. For feature-level work, update the spec or plan, test plan, daily log, and handoff if the work will continue later.
+If the project uses OB task or an external board, closeout is not done until that task record is updated or a sync failure is explicitly reported.

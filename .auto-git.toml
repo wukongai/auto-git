@@ -1,0 +1,22 @@
+[release]
+version_file = "VERSION"
+changelog_file = "CHANGELOG.md"
+changelog_section = "## [{version}]"
+allowed_branches = ["main"]
+tag_template = "v{version}"
+remote = "origin"
+required_assets = [
+  "SKILL.md",
+  "skill.contract.yaml",
+  "README.md",
+  "README.en.md",
+]
+draft = false
+prerelease = false
+regression = [
+  ["python3", "-m", "pytest", "-q"],
+  ["ruff", "check", "--no-cache", "scripts", "tests"],
+]
+build = [
+  ["python3", "-m", "compileall", "-q", "scripts", ".claude/hooks"],
+]

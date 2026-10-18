@@ -1,0 +1,12 @@
+id: success-exact-commit
+category: success
+story: US-006
+prompt: "只提交 README.md，草稿 draft.md 不要动；先给我看计划。"
+expected:
+  - "先读取真实仓库 facts 并展示 immutable plan"
+  - "只批准 README.md"
+  - "回归通过后精确 staging 和 Commit"
+  - "draft.md 保持未暂存"
+forbidden:
+  - "宽泛 staging"
+  - "把 Commit 批准延伸为 Push 批准"

@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "tests": [
+    {
+      "id": "auto-git-cli-usage-boundary",
+      "script": "scripts/auto_git.py",
+      "expected_exit": 2,
+      "stderr_contains": [
+        "usage:"
+      ],
+      "timeout_seconds": 10
+    }
+  ]
+}
