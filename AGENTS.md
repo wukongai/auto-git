@@ -133,29 +133,29 @@ Auto Git 工程副驾：先解释风险与策略，再通过确定性工具执�
 | 路径 | 作用 | 触发条件 |
 |---|---|---|
 | `docs/constitution.md` | 项目宪法、不可变原则、角色与记忆边界 | 初始化项目 / 修改原则 / 规则冲突 |
-| `docs/dailylog/` | 兼容旧路径的每日执行记录 | 任何有实际改动或关键判断的工作日 |
-| `docs/logs/daily/` | 标准每日执行记录、验证结果、遗留问题 | 任何有实际改动或关键判断的工作日 |
-| `docs/logs/weekly/` | 周报、周期复盘、运维摘要 | 每周回顾 / 长周期项目 |
-| `docs/sprints/` | 阶段目标、范围、验收、复盘 | 多日推进 / 多 agent 并行 / 目标需要拆期 |
-| `docs/superpowers/specs/` | 功能设计与验收契约 | 新功能 / 新流程 / 架构或数据结构变化 |
-| `docs/superpowers/plans/` | 实施计划、风险、测试方案 | 功能级工作开工前 |
-| `docs/superpowers/designs/` | UI / 交互 / 产品方案候选 | 涉及页面、流程、用户体验 |
-| `docs/superpowers/testing/` | 测试用例、验收记录、回归清单 | 功能级 / 高风险 / 回归敏感工作 |
-| `docs/superpowers/handoff/` | 跨会话交接、恢复现场 | 暂停、换 agent、任务未完成、上下文将丢失 |
-| `docs/superpowers/mockups/` | 功能级 mockup / 原型 | 设计评审、方案比较 |
-| `docs/superpowers/brainstorming/` | 结构化发散与候选方案 | 需求模糊、方案未定 |
-| `docs/adr/` | 架构决策记录 | 不可逆 / 高成本 / 后续会反复追问的技术选择 |
-| `docs/backlog/` | 未排期想法与候选任务 | 暂不进入当前 sprint |
-| `docs/research/` | 调研、对比、评估证据 | 选型、竞品、模型、供应商、方案比较 |
-| `docs/guides/` | 可重复操作手册 | 需要人或 agent 反复执行的流程 |
-| `docs/tutorials/` | 教程与学习路径 | 需要教会人或 agent 从零执行 |
+| `docs/project/logs/` | 兼容旧路径的每日执行记录 | 任何有实际改动或关键判断的工作日 |
+| `docs/project/logs/` | 标准每日执行记录、验证结果、遗留问题 | 任何有实际改动或关键判断的工作日 |
+| `docs/project/logs/` | 周报、周期复盘、运维摘要 | 每周回顾 / 长周期项目 |
+| `docs/project/sprints/` | 阶段目标、范围、验收、复盘 | 多日推进 / 多 agent 并行 / 目标需要拆期 |
+| `docs/engineering/specs/` | 功能设计与验收契约 | 新功能 / 新流程 / 架构或数据结构变化 |
+| `docs/engineering/changes/` | 实施计划、风险、测试方案 | 功能级工作开工前 |
+| `docs/engineering/changes/` | UI / 交互 / 产品方案候选 | 涉及页面、流程、用户体验 |
+| `docs/engineering/changes/` | 测试用例、验收记录、回归清单 | 功能级 / 高风险 / 回归敏感工作 |
+| `docs/project/handoffs/` | 跨会话交接、恢复现场 | 暂停、换 agent、任务未完成、上下文将丢失 |
+| `docs/product/research/` | 功能级 mockup / 原型 | 设计评审、方案比较 |
+| `docs/product/research/` | 结构化发散与候选方案 | 需求模糊、方案未定 |
+| `docs/engineering/adr/` | 架构决策记录 | 不可逆 / 高成本 / 后续会反复追问的技术选择 |
+| `docs/project/tasks/` | 未排期想法与候选任务 | 暂不进入当前 sprint |
+| `docs/product/research/` | 调研、对比、评估证据 | 选型、竞品、模型、供应商、方案比较 |
+| `docs/knowledge/team/explanations/` | 可重复操作手册 | 需要人或 agent 反复执行的流程 |
+| `docs/knowledge/users/guides/` | 教程与学习路径 | 需要教会人或 agent 从零执行 |
 | `docs/engineering/` | 工程架构、运行时、harness、工具链事实 | 长期技术事实或工程约束 |
-| `docs/playbook/` | 操作手册、应急流程、回滚路径 | 高频或高风险操作 |
-| `docs/onboarding/` | 新机器、新成员、新 agent 接入 | 环境初始化 / 私有凭证指针 |
-| `docs/releases/` | 发版记录、验证证据、回滚说明 | 版本发布 |
-| `docs/references/` | PDF、截图、外部材料、证据附件 | 需要留存原始材料 |
-| `docs/mockups/` | 全局 mockup / 原型 | 跨功能视觉产物 |
-| `docs/migration/` | 迁移审计、兼容、回滚 | 数据 / 内容 / 仓库 / 架构迁移 |
+| `docs/engineering/maintenance/runbooks/` | 操作手册、应急流程、回滚路径 | 高频或高风险操作 |
+| `docs/engineering/maintenance/environment/` | 新机器、新成员、新 agent 接入 | 环境初始化 / 私有凭证指针 |
+| `docs/product/releases/` | 发版记录、验证证据、回滚说明 | 版本发布 |
+| `docs/knowledge/references/` | PDF、截图、外部材料、证据附件 | 需要留存原始材料 |
+| `docs/product/research/` | 全局 mockup / 原型 | 跨功能视觉产物 |
+| `docs/engineering/maintenance/migrations/` | 迁移审计、兼容、回滚 | 数据 / 内容 / 仓库 / 架构迁移 |
 
 ## 写入门禁
 
@@ -184,7 +184,7 @@ Auto Git 工程副驾：先解释风险与策略，再通过确定性工具执�
 ## 工作顺序
 
 1. 开工前判断档位：功能 / 补丁 / 极简。
-2. 功能级：读相关 `docs/superpowers/specs/`、`plans/`、`handoff/`。
+2. 功能级：读相关 `docs/engineering/specs/`、`plans/`、`handoff/`。
 3. 编码前：必要时新增或更新 spec/plan。
 4. 编码后：运行验证命令，记录结果。
 5. 收尾前：更新 daily log；未完则补 handoff；跨期则更新 sprint；发版则更新 release。
@@ -283,7 +283,7 @@ cd "/Users/aim5/Documents/CodingProject/agent-skill-hub" && PYTHONPATH=src pytho
    绝不在生产环境上直接改代码 / commit / 改配置。要改就走：本地改 → 测试 → push → 服务器拉取。
 
 5. **功能完成必须文档对齐 + 任务账本同步** —— 文档没对齐就不许声称「完成」。
-   对齐范围：README.md / docs/PRODUCT.md / docs/ARCHITECTURE.md / docs/ROADMAP.md / docs/TASK.md / CHANGELOG.md / 当前 Sprint / 测试证据（按项目填，例：CHANGELOG / PRD / 结构清单 / 每日日志）。
+   对齐范围：README.md / docs/product/product-definition.md / docs/engineering/architecture/auto-git.md / docs/product/roadmap.md / docs/project/tasks/auto-git-v0.1.0.md / CHANGELOG.md / 当前 Sprint / 测试证据（按项目填，例：CHANGELOG / PRD / 结构清单 / 每日日志）。
    ⚠️ 启用任务同步（profile `task_sync_enabled`）时，「完成」的定义还包含**外部任务账本已同步**（OB task / 飞书看板等，见 task-sync 规则）——只对齐仓库内文档、不更新外部账本，不算完成。
 
 6. **bug 先分级再修** —— 用户报 bug 时禁止跳过 triage 直接动手：
@@ -399,7 +399,7 @@ allowlist:
 
 ## 第一阶段：需求设计（先写文档，再写代码）
 
-1. 写 spec 到 docs/superpowers/specs/（例：docs/specs/）
+1. 写 spec 到 docs/engineering/specs/（例：docs/specs/）
 2. 和用户确认设计方案，确认后才进入编码
 > 门禁：spec 未确认，禁止动代码。补丁 / 极简档可跳过本阶段。
 
@@ -407,7 +407,7 @@ allowlist:
 
 3. 涉及数据结构变更 → 先过红线第 3 条（备份 → 变更 → 审查 → 同 commit）
 4. 所有新文件和新函数必须加**中文注释**
-5. 新增文件前先查同类文件是否可复用（读 docs/ARCHITECTURE.md，例：docs/structure.md）
+5. 新增文件前先查同类文件是否可复用（读 docs/engineering/architecture/auto-git.md，例：docs/structure.md）
 
 ## 第三阶段：构建验证
 
@@ -416,7 +416,7 @@ allowlist:
 
 ## 第四阶段：文档对齐 + 任务账本同步（commit 前，主动执行不等提醒）
 
-7. 对齐 README.md / docs/PRODUCT.md / docs/ARCHITECTURE.md / docs/ROADMAP.md / docs/TASK.md / CHANGELOG.md / 当前 Sprint / 测试证据
+7. 对齐 README.md / docs/product/product-definition.md / docs/engineering/architecture/auto-git.md / docs/product/roadmap.md / docs/project/tasks/auto-git-v0.1.0.md / CHANGELOG.md / 当前 Sprint / 测试证据
 8. **启用任务同步（profile `task_sync_enabled`）时**：同步外部任务账本（OB task / 飞书看板，见 task-sync 规则）——先 dry-run 给用户看，授权后才 `--apply`。只改仓库内文档、不更新外部账本，不算对齐完成。
 9. 「任务结束」的定义 = 文档对齐 +（启用时）任务账本同步完成，不是编码完成
 > 门禁：要说「完成 / 搞定」之前先自问——文档全对齐了吗？task_sync_enabled 的话，OB task / 飞书同步了吗？
@@ -522,3 +522,15 @@ python3 /Users/aim5/Documents/CodingProject/feishukanban-ob-sync/sync.py --creat
 - 禁止把 token、cookie、app secret、真实凭证写进 task 或 profile。
 - 禁止为了通过收尾而编造同步结果。
 - 外部系统写入失败时，必须标记 blocked 或 waiting-sync，并说明失败原因。
+
+
+<!-- aef-docs-routing:v1 -->
+## 文档落点
+
+新增或修改文档前，先读 `docs/README.md` 的类型索引；机器合同为 `.aef/docs-layout.json`。
+先判断产品事实、项目执行、技术工程、商业、客户成功或知识，再选择精确类型。类型有歧义先澄清，不按标题关键词猜测。
+需要确定路径时使用 aef-docs-init 的只读 route 动作；普通写作无需重新初始化。
+实例名称确定后再建需求、版本、能力、变更或周期目录。写入前检查已有文件，不覆盖差异。
+用户指南正文只保存在 knowledge/users；其他领域引用。任务状态只有一个来源，日志和 Sprint 引用任务。
+写后按类型校验落点；初始化检查仅覆盖目录、索引、入口，不代表正文、测试或 Gate 通过。
+<!-- /aef-docs-routing:v1 -->

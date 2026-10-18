@@ -4,7 +4,7 @@ Use this when pausing, switching agents, or leaving unfinished context.
 
 ## Steps
 
-1. Create or update `docs/superpowers/handoff/YYYY-MM-DD-<topic>-handoff.md`.
+1. Create or update `docs/project/handoffs/YYYY-MM-DD-<topic>-handoff.md`.
 2. Include:
    - current status
    - files touched

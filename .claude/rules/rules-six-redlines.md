@@ -34,8 +34,8 @@ metadata:
    绝不在生产环境上直接改代码 / commit / 改配置。要改就走：本地改 → 测试 → push → 服务器拉取。
 
 5. **功能完成必须文档对齐 + 任务账本同步** —— 文档没对齐就不许声称「完成」。
-   对齐范围：README.md / docs/PRODUCT.md / docs/ARCHITECTURE.md / docs/ROADMAP.md /
-   docs/TASK.md / CHANGELOG.md / 当前 Sprint / 测试证据。
+   对齐范围：README.md / docs/product/product-definition.md / docs/engineering/architecture/auto-git.md / docs/product/roadmap.md /
+   docs/project/tasks/auto-git-v0.1.0.md / CHANGELOG.md / 当前 Sprint / 测试证据。
    ⚠️ 启用任务同步（profile `task_sync_enabled`）时，「完成」的定义还包含**外部任务账本已同步**（OB task / 飞书看板等，见 task-sync 规则）——只对齐仓库内文档、不更新外部账本，不算完成。
 
 6. **bug 先分级再修** —— 用户报 bug 时禁止跳过 triage 直接动手：

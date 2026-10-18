@@ -38,10 +38,12 @@ def build(source, output):
     body = parser.render(text)
     body = re.sub(r"\*\*([^\n]+?)\*\*", r"<strong>\1</strong>", body)
     images = []
+    # 六领域布局的图片可位于knowledge；仍限制在主文所属docs树内。
+    docs_root = next((p for p in source.parents if p.name == "docs"), source.parent)
     def embed(match):
-        """只内嵌主文目录以内的静态图片，禁止越界和网络请求。"""
+        """只内嵌docs树以内的静态图片，禁止越界和网络请求。"""
         target = (source.parent / match.group(1)).resolve()
-        if not target.is_relative_to(source.parent.resolve()) or not target.is_file():
+        if not target.is_relative_to(docs_root.resolve()) or not target.is_file():
             raise ValueError("图片不存在或越界：" + match.group(1))
         if target.suffix.lower() != ".png":
             raise ValueError("本导出入口仅支持已审核PNG")

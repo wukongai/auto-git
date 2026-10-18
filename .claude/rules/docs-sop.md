@@ -20,29 +20,29 @@ metadata:
 | 路径 | 作用 | 触发条件 |
 |---|---|---|
 | `docs/constitution.md` | 项目宪法、不可变原则、角色与记忆边界 | 初始化项目 / 修改原则 / 规则冲突 |
-| `docs/dailylog/` | 兼容旧路径的每日执行记录 | 任何有实际改动或关键判断的工作日 |
-| `docs/logs/daily/` | 标准每日执行记录、验证结果、遗留问题 | 任何有实际改动或关键判断的工作日 |
-| `docs/logs/weekly/` | 周报、周期复盘、运维摘要 | 每周回顾 / 长周期项目 |
-| `docs/sprints/` | 阶段目标、范围、验收、复盘 | 多日推进 / 多 agent 并行 / 目标需要拆期 |
-| `docs/superpowers/specs/` | 功能设计与验收契约 | 新功能 / 新流程 / 架构或数据结构变化 |
-| `docs/superpowers/plans/` | 实施计划、风险、测试方案 | 功能级工作开工前 |
-| `docs/superpowers/designs/` | UI / 交互 / 产品方案候选 | 涉及页面、流程、用户体验 |
-| `docs/superpowers/testing/` | 测试用例、验收记录、回归清单 | 功能级 / 高风险 / 回归敏感工作 |
-| `docs/superpowers/handoff/` | 跨会话交接、恢复现场 | 暂停、换 agent、任务未完成、上下文将丢失 |
-| `docs/superpowers/mockups/` | 功能级 mockup / 原型 | 设计评审、方案比较 |
-| `docs/superpowers/brainstorming/` | 结构化发散与候选方案 | 需求模糊、方案未定 |
-| `docs/adr/` | 架构决策记录 | 不可逆 / 高成本 / 后续会反复追问的技术选择 |
-| `docs/backlog/` | 未排期想法与候选任务 | 暂不进入当前 sprint |
-| `docs/research/` | 调研、对比、评估证据 | 选型、竞品、模型、供应商、方案比较 |
-| `docs/guides/` | 可重复操作手册 | 需要人或 agent 反复执行的流程 |
-| `docs/tutorials/` | 教程与学习路径 | 需要教会人或 agent 从零执行 |
+| `docs/project/logs/` | 兼容旧路径的每日执行记录 | 任何有实际改动或关键判断的工作日 |
+| `docs/project/logs/` | 标准每日执行记录、验证结果、遗留问题 | 任何有实际改动或关键判断的工作日 |
+| `docs/project/logs/` | 周报、周期复盘、运维摘要 | 每周回顾 / 长周期项目 |
+| `docs/project/sprints/` | 阶段目标、范围、验收、复盘 | 多日推进 / 多 agent 并行 / 目标需要拆期 |
+| `docs/engineering/specs/` | 功能设计与验收契约 | 新功能 / 新流程 / 架构或数据结构变化 |
+| `docs/engineering/changes/` | 实施计划、风险、测试方案 | 功能级工作开工前 |
+| `docs/engineering/changes/` | UI / 交互 / 产品方案候选 | 涉及页面、流程、用户体验 |
+| `docs/engineering/changes/` | 测试用例、验收记录、回归清单 | 功能级 / 高风险 / 回归敏感工作 |
+| `docs/project/handoffs/` | 跨会话交接、恢复现场 | 暂停、换 agent、任务未完成、上下文将丢失 |
+| `docs/product/research/` | 功能级 mockup / 原型 | 设计评审、方案比较 |
+| `docs/product/research/` | 结构化发散与候选方案 | 需求模糊、方案未定 |
+| `docs/engineering/adr/` | 架构决策记录 | 不可逆 / 高成本 / 后续会反复追问的技术选择 |
+| `docs/project/tasks/` | 未排期想法与候选任务 | 暂不进入当前 sprint |
+| `docs/product/research/` | 调研、对比、评估证据 | 选型、竞品、模型、供应商、方案比较 |
+| `docs/knowledge/team/explanations/` | 可重复操作手册 | 需要人或 agent 反复执行的流程 |
+| `docs/knowledge/users/guides/` | 教程与学习路径 | 需要教会人或 agent 从零执行 |
 | `docs/engineering/` | 工程架构、运行时、harness、工具链事实 | 长期技术事实或工程约束 |
-| `docs/playbook/` | 操作手册、应急流程、回滚路径 | 高频或高风险操作 |
-| `docs/onboarding/` | 新机器、新成员、新 agent 接入 | 环境初始化 / 私有凭证指针 |
-| `docs/releases/` | 发版记录、验证证据、回滚说明 | 版本发布 |
-| `docs/references/` | PDF、截图、外部材料、证据附件 | 需要留存原始材料 |
-| `docs/mockups/` | 全局 mockup / 原型 | 跨功能视觉产物 |
-| `docs/migration/` | 迁移审计、兼容、回滚 | 数据 / 内容 / 仓库 / 架构迁移 |
+| `docs/engineering/maintenance/runbooks/` | 操作手册、应急流程、回滚路径 | 高频或高风险操作 |
+| `docs/engineering/maintenance/environment/` | 新机器、新成员、新 agent 接入 | 环境初始化 / 私有凭证指针 |
+| `docs/product/releases/` | 发版记录、验证证据、回滚说明 | 版本发布 |
+| `docs/knowledge/references/` | PDF、截图、外部材料、证据附件 | 需要留存原始材料 |
+| `docs/product/research/` | 全局 mockup / 原型 | 跨功能视觉产物 |
+| `docs/engineering/maintenance/migrations/` | 迁移审计、兼容、回滚 | 数据 / 内容 / 仓库 / 架构迁移 |
 
 ## 写入门禁
 
@@ -71,7 +71,7 @@ metadata:
 ## 工作顺序
 
 1. 开工前判断档位：功能 / 补丁 / 极简。
-2. 功能级：读相关 `docs/superpowers/specs/`、`plans/`、`handoff/`。
+2. 功能级：读相关 `docs/engineering/specs/`、`plans/`、`handoff/`。
 3. 编码前：必要时新增或更新 spec/plan。
 4. 编码后：运行验证命令，记录结果。
 5. 收尾前：更新 daily log；未完则补 handoff；跨期则更新 sprint；发版则更新 release。

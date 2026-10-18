@@ -6,8 +6,8 @@ created: 2026-08-02
 updated: 2026-08-03
 tags: [constitution, engineering, ai-native]
 related:
-  - "[[PRODUCT]]"
-  - "[[ARCHITECTURE]]"
+  - "[[product/product-definition.md]]"
+  - "[[engineering/architecture/auto-git.md]]"
 ---
 
 # Auto Git 工程宪章

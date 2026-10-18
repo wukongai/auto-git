@@ -30,7 +30,7 @@ metadata:
 
 ## 第一阶段：需求设计（先写文档，再写代码）
 
-1. 写 spec 到 `docs/superpowers/specs/`
+1. 写 spec 到 `docs/engineering/specs/`
 2. 和用户确认设计方案，确认后才进入编码
 > 门禁：spec 未确认，禁止动代码。补丁 / 极简档可跳过本阶段。
 
@@ -38,7 +38,7 @@ metadata:
 
 3. 涉及数据结构变更 → 先过红线第 3 条（备份 → 变更 → 审查 → 同 commit）
 4. 所有新文件和新函数必须加**中文注释**
-5. 新增文件前先查同类文件是否可复用（读 `docs/ARCHITECTURE.md`）
+5. 新增文件前先查同类文件是否可复用（读 `docs/engineering/architecture/auto-git.md`）
 
 ## 第三阶段：构建验证
 
@@ -48,8 +48,8 @@ metadata:
 
 ## 第四阶段：文档对齐 + 任务账本同步（commit 前，主动执行不等提醒）
 
-7. 对齐 README.md / docs/PRODUCT.md / docs/ARCHITECTURE.md / docs/ROADMAP.md /
-   docs/TASK.md / CHANGELOG.md / 当前 Sprint / 测试证据
+7. 对齐 README.md / docs/product/product-definition.md / docs/engineering/architecture/auto-git.md / docs/product/roadmap.md /
+   docs/project/tasks/auto-git-v0.1.0.md / CHANGELOG.md / 当前 Sprint / 测试证据
 8. **启用任务同步（profile `task_sync_enabled`）时**：同步外部任务账本（OB task / 飞书看板，见 task-sync 规则）——先 dry-run 给用户看，授权后才 `--apply`。只改仓库内文档、不更新外部账本，不算对齐完成。
 9. 「任务结束」的定义 = 文档对齐 +（启用时）任务账本同步完成，不是编码完成
 > 门禁：要说「完成 / 搞定」之前先自问——文档全对齐了吗？task_sync_enabled 的话，OB task / 飞书同步了吗？

@@ -147,7 +147,7 @@ npx skills remove auto-git
 
 需要按步骤完成第一次安装、Commit、Remote、Push、Release 或恢复，请阅读：
 
-[《Auto Git 用户手册：从第一次检查到安全发布》](docs/tutorials/auto-git-user-manual.zh-CN.md)
+[《Auto Git 用户手册：从第一次检查到安全发布》](docs/knowledge/users/guides/auto-git-user-manual.zh-CN.md)
 
 README 负责让你快速开始；用户手册是一份更具体的操作 Playbook，包含可以直接复制给
 Agent 的话术、预期结果和常见问题处理。
@@ -163,8 +163,8 @@ Agent 的话术、预期结果和常见问题处理。
 ## 获取帮助
 
 - 使用问题：发布后通过 [GitHub Issues](https://github.com/wukongai/auto-git/issues)；
-- 产品与安全边界：[用户手册](docs/tutorials/auto-git-user-manual.zh-CN.md)；
-- 开发者事实源：[PRD](docs/PRD.md)、[Architecture](docs/ARCHITECTURE.md)、
-  [Roadmap](docs/ROADMAP.md)。
+- 产品与安全边界：[用户手册](docs/knowledge/users/guides/auto-git-user-manual.zh-CN.md)；
+- 开发者事实源：[PRD](docs/product/prd/auto-git-v0.1.0.md)、[Architecture](docs/engineering/architecture/auto-git.md)、
+  [Roadmap](docs/product/roadmap.md)。
 
 请把错误原样交给 Agent，并要求它先诊断、保留文件、解释影响，再提出修复计划。

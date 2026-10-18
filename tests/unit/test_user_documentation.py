@@ -13,7 +13,7 @@ import pytest
 ROOT = Path(__file__).resolve().parents[2]
 README_ZH = ROOT / "README.md"
 README_EN = ROOT / "README.en.md"
-USER_MANUAL = ROOT / "docs" / "tutorials" / "auto-git-user-manual.zh-CN.md"
+USER_MANUAL = ROOT / "docs" / "knowledge" / "users" / "guides" / "auto-git-user-manual.zh-CN.md"
 INSTALL_REFERENCE = ROOT / "references" / "install.md"
 RELEASE_REFERENCE = ROOT / "references" / "release.md"
 SKILL_ENTRY = ROOT / "SKILL.md"
@@ -57,7 +57,7 @@ def test_bilingual_readmes_exist_and_link_to_each_other() -> None:
         "Commit",
         "Push",
         "Release",
-        "docs/tutorials/auto-git-user-manual.zh-CN.md",
+        "docs/knowledge/users/guides/auto-git-user-manual.zh-CN.md",
     ],
 )
 def test_readmes_share_key_user_facts(required: str) -> None:

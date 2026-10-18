@@ -1,0 +1,89 @@
+{
+  "title": "Auto Git｜产品定义",
+  "source_id": "auto-git-definition",
+  "source_version": "0.2",
+  "source_sha256": "216261dc1d06922f34b6d79dd79f044aa3071612ff397df03722a26aa848c386",
+  "notice": "全文已审核通过；经营与用户价值尚待实证",
+  "canvas_mode": "both",
+  "canvases": {
+    "startup": {
+      "value": "真实状态与计划授权\n执行核验与安全恢复\n让普通人掌握版本管理",
+      "segments": "使用 Agent 的普通用户\n独立开发者与维护者\n讲师及学员",
+      "channels": "仓库与安装入口\n双语文档和手册",
+      "costs": "开发、兼容、回归和支持投入；工时及单位成本待测",
+      "revenue": "尚无交易证据；收费方式与持续维护资金来源待决定",
+      "problems": "不清楚该提交什么\n担心误操作与恢复失败",
+      "solutions": "授权执行并核验\n替代：命令、图形",
+      "metrics": "错误耗时与复用\n理解及支持工时",
+      "advantage": "测试与案例积累\n商业壁垒未建立"
+    },
+    "traditional": {
+      "value": "真实状态与计划授权\n执行核验与安全恢复\n让普通人掌握版本管理",
+      "segments": "使用 Agent 的普通用户\n独立开发者与维护者\n讲师及学员",
+      "channels": "仓库与安装入口\n双语文档和手册",
+      "costs": "开发、兼容、回归和支持投入；工时及单位成本待测",
+      "revenue": "尚无交易证据；收费方式与持续维护资金来源待决定",
+      "partners": "Git、宿主与托管平台\n技术依赖，非签约伙伴",
+      "activities": "兼容维护与回归\n文档和问题支持",
+      "resources": "脚本测试与经验\n持续产能待确认",
+      "relationships": "解释授权与反馈\n支持能力待验证"
+    }
+  },
+  "canvas_comparison": "创业版聚焦需求、替代、验证指标与优势；传统经营版补充关键活动、资源、依赖和客户支持。两版共享同一客群、价值、渠道与收支判断。",
+  "assessment": {
+    "model": "product-six-v1",
+    "mode": "初步评分",
+    "limitation": "本地测试支持技术基础，不代表需求、留存和商业成立；未知不按零计。",
+    "scores": [
+      {
+        "name": "需求度",
+        "value": null,
+        "evidence": "E0",
+        "reason": "缺独立用户损失与频次证据",
+        "source": "PRODUCT.md 第六章及本次验证日志"
+      },
+      {
+        "name": "黏性",
+        "value": null,
+        "evidence": "E0",
+        "reason": "缺再次选择与持续使用记录",
+        "source": "PRODUCT.md 第六章及本次验证日志"
+      },
+      {
+        "name": "市场空间",
+        "value": null,
+        "evidence": "E0",
+        "reason": "缺可服务规模与渠道口径",
+        "source": "PRODUCT.md 第六章及本次验证日志"
+      },
+      {
+        "name": "竞争力",
+        "value": 2,
+        "evidence": "E0",
+        "reason": "机制有实现，对照效果未验",
+        "source": "PRODUCT.md 第六章及本次验证日志"
+      },
+      {
+        "name": "盈利能力",
+        "value": null,
+        "evidence": "E0",
+        "reason": "收入、成本与投入来源未定",
+        "source": "PRODUCT.md 第六章及本次验证日志"
+      },
+      {
+        "name": "交付能力",
+        "value": 2,
+        "evidence": "E0",
+        "reason": "本地回归通过，跨宿主支持待验",
+        "source": "PRODUCT.md 第六章及本次验证日志"
+      }
+    ]
+  },
+  "five_forces": {
+    "entrants": "Skill 与脚本容易复制；提示词本身难构成壁垒",
+    "suppliers": "依赖宿主权限、模型行为与远程平台；需维护兼容",
+    "rivalry": "成熟 Git 与图形入口已存在；新增流程需证明净收益",
+    "buyers": "用户有低成本替代；收费需要额外价值证据",
+    "substitutes": "宿主原生能力、项目脚本与手工操作均能满足部分需求"
+  }
+}

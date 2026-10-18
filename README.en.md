@@ -162,7 +162,7 @@ installation.
 
 For a step-by-step installation, Commit, Remote, Push, Release, and recovery Playbook, read:
 
-[Auto Git User Manual (Chinese)](docs/tutorials/auto-git-user-manual.zh-CN.md)
+[Auto Git User Manual (Chinese)](docs/knowledge/users/guides/auto-git-user-manual.zh-CN.md)
 
 The README helps you start quickly. The manual provides copyable prompts, expected results,
 and troubleshooting for each operation.
@@ -181,9 +181,9 @@ and troubleshooting for each operation.
 
 - Usage questions: [GitHub Issues](https://github.com/wukongai/auto-git/issues) after publication;
 - Product and safety boundaries:
-  [Chinese user manual](docs/tutorials/auto-git-user-manual.zh-CN.md);
-- Developer sources of truth: [PRD](docs/PRD.md), [Architecture](docs/ARCHITECTURE.md), and
-  [Roadmap](docs/ROADMAP.md).
+  [Chinese user manual](docs/knowledge/users/guides/auto-git-user-manual.zh-CN.md);
+- Developer sources of truth: [PRD](docs/product/prd/auto-git-v0.1.0.md), [Architecture](docs/engineering/architecture/auto-git.md), and
+  [Roadmap](docs/product/roadmap.md).
 
 Give the original error to your agent and ask it to diagnose first, preserve your files,
 explain the impact, and then propose a repair plan.

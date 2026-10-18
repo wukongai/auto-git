@@ -13,7 +13,7 @@ Collect evidence, compare options, and separate verified facts from inference.
 
 - Prefer primary sources.
 - Record dates for time-sensitive claims.
-- Link findings to `docs/research/` and related ADR/spec/plan.
+- Link product findings to `docs/product/research/`, technical findings to `docs/engineering/research/`, and related ADR/spec/plan.
 
 ## Output
 
