@@ -278,8 +278,8 @@ def test_cli_exposes_dependency_auth_release_and_history(
         "required_assets": ["README.md"],
         "draft": False,
         "prerelease": False,
-        "regression": [],
-        "build": [],
+        "regression": [[sys.executable, "-c", "print('fixture regression')"]],
+        "build": [[sys.executable, "-c", "print('fixture build')"]],
     }
     release = subprocess.run(
         [
@@ -293,9 +293,9 @@ def test_cli_exposes_dependency_auth_release_and_history(
             "--profile-json",
             json.dumps(profile),
             "--regression-json",
-            "[]",
+            json.dumps(profile["regression"]),
             "--build-json",
-            "[]",
+            json.dumps(profile["build"]),
             "--json",
         ],
         capture_output=True,

@@ -23,8 +23,8 @@ Skill Engineering 运行时。
 
 GitHub 主源的项目级安装：
 
-> 以下命令在 GitHub 主仓库正式上库后可用。发布候选尚未首次 Push 时，不把
-> “repository not found” 当作本机安装故障，也不替换为未经验证的同名来源。
+> GitHub已有备份记录；本轮未验证安装源实时可用性，安全候选也尚未推送。
+> 安装试用仍待验收。出现“repository not found”时先核对来源与权限，不替换为同名仓库。
 
 ```bash
 npx skills add wukongai/auto-git

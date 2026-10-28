@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from .runner import run
+from .runner import CommandError, run
 
 
 SUPPORTED_VERIFIERS = {
@@ -22,6 +22,14 @@ SUPPORTED_VERIFIERS = {
     "github_release",
     "recover_index",
 }
+
+
+class VerificationUnknown(RuntimeError):
+    """缺少可读取事实，不能将结果归为确定漂移。"""
+
+
+class VerificationPartial(RuntimeError):
+    """目标已收到，但本地跟踪等完整后置条件尚未满足。"""
 
 
 def _verify_git_local(
@@ -60,8 +68,8 @@ def _verify_git_local(
             email.encode("utf-8")
         ).hexdigest() == details.get("email_hash")
     if action == "stage_commit":
-        actual = run(["git", "rev-parse", "HEAD"], cwd=repo).stdout.strip()
-        return actual == details.get("head")
+        from .commit_execution import verify_commit
+        return verify_commit(repo, details)
     if action == "remote_connect":
         from .remote import normalize_remote_url
 
@@ -77,6 +85,8 @@ def _verify_git_local(
         from .release import _local_tag_facts
 
         facts = _local_tag_facts(repo, details.get("tag", ""))
+        if details.get("object") is None and details.get("existed_before") is False:
+            return bool(facts.get("exists")) and facts.get("target") == details.get("target")
         return (
             facts.get("object") == details.get("object")
             and facts.get("target") == details.get("target")
@@ -92,7 +102,7 @@ def _verify_remote(
     details: dict[str, Any],
 ) -> bool:
     if action == "push":
-        from .remote import validate_remote_name
+        from .remote import normalize_remote_url, validate_remote_name
 
         remote = validate_remote_name(
             repo,
@@ -100,19 +110,45 @@ def _verify_remote(
             require_configured=True,
         )
         branch = details.get("branch", "")
+        endpoint = remote
+        if details.get("url_identity"):
+            endpoint = run(["git", "remote", "get-url", "--push", "--", remote], cwd=repo).stdout.strip()
+            if normalize_remote_url(endpoint) != details["url_identity"]:
+                return False
         result = run(
-            ["git", "ls-remote", remote, f"refs/heads/{branch}"],
+            ["git", "ls-remote", endpoint, f"refs/heads/{branch}"],
             cwd=repo,
             check=False,
         )
+        if result.returncode:
+            raise VerificationUnknown("无法读取远端，结果未知；先恢复读取再核验")
         oid = result.stdout.split()[0] if result.stdout.split() else ""
-        return result.returncode == 0 and oid == details.get("remote")
+        if not details.get("remote") or oid != details["remote"]:
+            return False
+        local = run(["git", "rev-parse", "HEAD"], cwd=repo).stdout.strip()
+        if local != details.get("local", details["remote"]):
+            return False
+        upstream = run(["git", "rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{upstream}"], cwd=repo, check=False).stdout.strip()
+        if upstream != f"{remote}/{branch}":
+            raise VerificationPartial("远端已收到批准提交，但本地upstream未匹配；先单独确认跟踪配置")
+        return True
     from .release import _remote_tag_facts
+    from .remote import normalize_remote_url
+
+    remote_name = details.get("remote", "")
+    endpoint = None
+    if details.get("url_identity"):
+        endpoint = run(["git", "remote", "get-url", "--push", "--", remote_name], cwd=repo).stdout.strip()
+        if normalize_remote_url(endpoint) != details["url_identity"]:
+            return False
+    else:
+        raise VerificationUnknown("旧Tag记录缺少原目标身份，请结合原计划先确认目标后核验")
 
     facts = _remote_tag_facts(
         repo,
-        details.get("remote", ""),
+        remote_name,
         details.get("tag", ""),
+        endpoint=endpoint,
     )
     return (
         facts.get("object") == details.get("object")
@@ -121,9 +157,9 @@ def _verify_remote(
 
 
 def _verify_github_repo(repo: Path, details: dict[str, Any]) -> bool:
-    from .github import GITHUB_HOSTNAME, github_env
+    from .github import GITHUB_HOSTNAME, github_env, validate_repository_name
 
-    repository = details.get("name", "")
+    repository = validate_repository_name(details.get("name", ""))
     viewed = run(
         [
             "gh",
@@ -148,7 +184,7 @@ def _verify_github_repo(repo: Path, details: dict[str, Any]) -> bool:
 def _verify_github_release(repo: Path, details: dict[str, Any]) -> bool:
     if not isinstance(details.get("asset_checksums"), dict):
         return False
-    from .github import GITHUB_HOSTNAME, github_env
+    from .github import GITHUB_HOSTNAME, github_env, validate_repository_name
     from .release import (
         _github_tag_facts,
         _local_tag_facts,
@@ -156,7 +192,7 @@ def _verify_github_release(repo: Path, details: dict[str, Any]) -> bool:
         _remote_tag_facts,
     )
 
-    repository = details.get("repository", "")
+    repository = validate_repository_name(details.get("repository", ""))
     local_tag = _local_tag_facts(repo, details.get("tag", ""))
     remote_tag = _remote_tag_facts(
         repo,
@@ -188,6 +224,21 @@ def _verify_github_release(repo: Path, details: dict[str, Any]) -> bool:
         name: f"sha256:{checksum}"
         for name, checksum in details.get("asset_checksums", {}).items()
     }
+    body = facts.get("body")
+    notes_match = (
+        isinstance(body, str) and hashlib.sha256(body.encode("utf-8")).hexdigest() == details["notes_sha256"]
+        if details.get("notes_sha256") else body == details.get("notes")
+    )
+    actual_url = facts.get("url")
+    url_match = (
+        actual_url == details["url"] if details.get("url") else
+        isinstance(actual_url, str) and actual_url.startswith(f"https://github.com/{repository}/releases/")
+    )
+    provider_target = details.get("provider_target")
+    target_match = (
+        facts.get("targetCommitish") == provider_target if provider_target is not None else
+        facts.get("targetCommitish") in {details.get("target"), details.get("expected_branch")}
+    )
     return (
         local_tag.get("object") == details.get("tag_object")
         and local_tag.get("target") == details.get("target")
@@ -197,11 +248,11 @@ def _verify_github_release(repo: Path, details: dict[str, Any]) -> bool:
         and provider_tag.get("target") == details.get("provider_tag_target")
         and facts.get("tagName") == details.get("tag")
         and facts.get("name") == details.get("title")
-        and facts.get("body") == details.get("notes")
+        and notes_match
         and facts.get("isDraft") is details.get("draft")
         and facts.get("isPrerelease") is details.get("prerelease")
-        and facts.get("targetCommitish") == details.get("provider_target")
-        and facts.get("url") == details.get("url")
+        and target_match
+        and url_match
         and sorted(asset_digests) == details.get("assets")
         and asset_digests == expected_digests
         and details.get("hostname") == GITHUB_HOSTNAME
@@ -246,6 +297,19 @@ def verify_record(record: object) -> dict[str, Any]:
             verified = _verify_github_repo(repo, details)
         else:
             verified = _verify_github_release(repo, details)
+    except VerificationPartial as exc:
+        return {
+            "schema_version": "1", "record_plan_id": safe_record.get("plan_id"),
+            "verified": False, "verification_status": "partial", "action": action,
+            "remote_applied": True, "reason": str(exc),
+            "next_step": "保留远端成果；单独预览本地upstream配置，不重复推送",
+        }
+    except VerificationUnknown as exc:
+        return {
+            "schema_version": "1", "record_plan_id": safe_record.get("plan_id"),
+            "verified": None, "verification_status": "unknown", "action": action,
+            "reason": str(exc), "next_step": "恢复网络后只读核对目标远端，不要盲目重试写入",
+        }
     except (
         RuntimeError,
         OSError,
@@ -254,7 +318,16 @@ def verify_record(record: object) -> dict[str, Any]:
         AttributeError,
         TypeError,
         json.JSONDecodeError,
-    ):
+    ) as exc:
+        if action in {"push", "push_tag", "github_repo_create", "github_release"} and (
+            isinstance(exc, CommandError) or getattr(exc, "verification_unavailable", False)
+        ):
+            return {
+                "schema_version": "1", "record_plan_id": safe_record.get("plan_id"),
+                "verified": None, "verification_status": "unknown", "action": action,
+                "reason": "目标状态暂时无法读取，不能断言成功或漂移",
+                "next_step": "恢复读取能力后重新只读核验，不盲目重试写入",
+            }
         verified = False
     return {
         "schema_version": "1",

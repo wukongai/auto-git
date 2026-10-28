@@ -4,6 +4,16 @@
 
 ## [Unreleased]
 
+### 安全修复候选 0.1.0-dev.1
+
+- 精确暂存后执行真实integrity检查；代码或配置变更缺少项目回归时阻断Commit/Push，检查结果进入回执。
+- 机器阻断merge/rebase/cherry-pick/revert/bisect、未合并路径、detached HEAD及错误仓库边界。
+- Commit后核对实际树、父提交、路径、当时index及可见工作区；Hook越界时保全已有历史并报告核验失败。
+- Push计划固定远端目标、OID及将公开提交，写前复核；Tag Push核验绑定原push endpoint。
+- 写入前保存running及脱敏目标；失败、部分执行、结果未知可区分，持久错误不保存stderr或完整diff。
+- 只按路径阻断凭证形态文件及待公开历史，inspect不为摘要读取其正文；更新能力与安装状态说明。
+- 本轮为本地候选验证，不代表真实安装、远端写入或正式发行完成。
+
 ### Added
 
 - 按AEF Docs Init完成六领域文档迁移、51目录导航和机器合同，保留产品定义批准状态及审核PDF原件；补齐暂存区凭证/格式提交门禁和4项临时仓库测试，最终117 passed、1 skipped。

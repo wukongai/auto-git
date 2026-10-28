@@ -2,6 +2,7 @@ name: auto-git
 kind: orchestrator
 owner: self
 status: candidate
+version: 0.1.0-dev.1
 
 purpose: >-
   让普通用户通过 Agent 自然语言安全完成从 Git 环境准备到本地 Commit、Remote Push
@@ -95,3 +96,37 @@ verification:
   - "fake gh 验证参数和阶段，不访问真实远端。"
   - "Skill Engineering content gate、creation review、Native Plan 和 self-test。"
   - "ruff、compileall、未完成内容/凭证/危险命令扫描。"
+
+# 固定GitHub API与用户明确批准的Git endpoint分别管理；不接收凭证值。
+providers:
+  - name: external_git_and_github_credentials
+    classification: open_source_byok
+    credential_sources: [os_keychain, config_file, env]
+    secrets_outside_skill_dir: true
+    redact_outputs: true
+    network_allowlist: [github.com]
+    dynamic_network_boundary: >-
+      通用Git Remote仅允许同一不可变计划内已批准的精确fetch/Push endpoint；
+      写入前重新核对URL身份与OID。固定GitHub Provider只访问github.com。
+      静态Doctor只能核对固定host声明，动态endpoint隔离由脚本与回归验证。
+    dry_run_no_remote_side_effects: true
+    apply_requires_explicit_user_approval: true
+    credential_lifecycle_docs: [references/safety.md]
+    tests:
+      - "missing credentials: tests/unit/test_doctor_install_cli.py"
+      - "redaction and no secret JSON output: tests/unit/test_foundation.py"
+      - "blocked non-allowlisted host / changed approved endpoint: tests/integration/test_remote_preflight.py"
+      - "credential URLs rejected: tests/integration/test_remote_and_release.py"
+
+evaluation:
+  score_scope: structural_readiness
+  claims:
+    utility: false
+  case_portfolio:
+    success: [tests/integration/test_commit_and_recovery.py]
+    failure: [tests/unit/test_operation_journal.py]
+    high_risk: [tests/integration/test_commit_safety.py, tests/unit/test_repository_safety.py]
+  type_checks: [cross_stage_io, partial_failure, aggregation]
+  limitations:
+    - "本地确定性回归不能代替跨宿主、真实远端或普通用户试用。"
+    - "未声明baseline/holdout行为增益或市场效用通过。"

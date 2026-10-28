@@ -117,6 +117,12 @@ def _update_path_digest(digest: Any, root: Path, relative_value: str) -> None:
         digest.update(b"missing\0")
         return
     digest.update(f"mode:{mode:o}\0".encode("ascii"))
+    # 凭证形态路径只取元数据；盘点不能为摘要而打开私有正文。
+    from .sensitive_paths import is_sensitive_path
+    if is_sensitive_path(relative_value):
+        metadata = target.lstat()
+        digest.update(f"sensitive-metadata:{metadata.st_size}:{metadata.st_mtime_ns}\0".encode("ascii"))
+        return
     if target.is_symlink():
         digest.update(b"symlink\0")
         digest.update(os.readlink(target).encode("utf-8", errors="surrogateescape"))

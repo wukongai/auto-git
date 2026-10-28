@@ -69,6 +69,7 @@ def operation_history(repo: Path, state_home: Path) -> dict[str, Any]:
                     "completed_at": record.get("completed_at"),
                     "commit_oid": details.get("head"),
                     "recovery_available": bool(details.get("index_backup")),
+                    "next_step": record.get("next_step"),
                 }
             )
     operations.sort(key=lambda item: str(item.get("completed_at") or ""), reverse=True)

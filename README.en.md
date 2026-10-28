@@ -10,8 +10,9 @@ remote repository, Push a branch, or publish a version. Auto Git reads the real 
 state, explains the impact, runs the project's own checks, and asks for approval before a
 write or public action.
 
-Current version: **0.1.0 release candidate**. The local implementation and automated tests
-pass. The first GitHub/Gitee publication, Tag, and Release have not happened yet.
+Current version: **0.1.0-dev.1 safety candidate**. A GitHub backup is recorded; the standard
+installation trial remains unverified. The Gitee mirror, formal Tag/Release, and host trials
+are still pending. See [verification and result states](references/verification-status.md).
 
 ## What you can do
 
@@ -48,9 +49,9 @@ host agent:
 This bootstrap happens before Auto Git is installed. Once installed, Auto Git reruns doctor
 and manages Git checks, plans, verification, and recovery for future projects.
 
-> **Release-candidate notice:** The commands below become available after the repository is
-> published to GitHub. The first Push has not happened yet. Until publication is verified,
-> a “repository not found” error is expected; do not substitute an unverified namesake.
+> **Installation notice:** A GitHub backup is recorded. This safety candidate has not been
+> pushed, and this run has not checked live source availability. The installation trial
+> remains unverified; check the source and access rather than choosing a namesake.
 
 ### Install for the current project
 
@@ -172,7 +173,7 @@ and troubleshooting for each operation.
 - Skill hosts: Codex and Claude Code; WorkBuddy uses the Claude Code channel;
 - System guidance: macOS, Windows, Debian/Ubuntu, and Fedora/RHEL;
 - Remotes: standard Git Remote; GitHub is the first dedicated repository and Release adapter;
-- Current evidence: 114 root-project tests, 91 pure-Skill candidate tests, and
+- Historical evidence: 114 root-project tests, 91 pure-Skill candidate tests, and
   temporary-repository scenarios pass;
 - Pending release checks: real GitHub/Gitee dual remotes, official Tag/Release, and
   cross-host installation trials.

@@ -147,12 +147,12 @@ def test_runtime_install_reference_uses_standard_skill_sources() -> None:
     assert "先装 Skill Engineering" not in install
 
 
-def test_install_commands_are_marked_as_available_after_repository_publication() -> None:
+def test_installation_status_does_not_claim_unverified_live_availability() -> None:
     for path in (README_ZH, README_EN, USER_MANUAL, INSTALL_REFERENCE):
         text = read(path).lower()
         assert (
-            "正式上库后" in text
-            or "first push has not happened yet" in text
+            "安装试用仍待验收" in text
+            or "installation trial remains unverified" in text
         ), path.relative_to(ROOT)
 
 

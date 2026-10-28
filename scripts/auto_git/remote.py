@@ -114,9 +114,18 @@ def _validate_branch(repo: Path, branch: str) -> str:
     return branch
 
 
-def connect_remote(repo: Path, name: str, url: str) -> dict[str, Any]:
+def connect_remote(
+    repo: Path, name: str, url: str, *, expected: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """兼容旧调用；受管计划须在写入前复核同一连接批准。"""
     name = validate_remote_name(repo, name, require_configured=False)
     url_identity = normalize_remote_url(url)
+    if expected is not None:
+        from .remote_preflight import validate_connection_preflight
+
+        if expected.get("remote") != name or expected.get("url_identity") != url_identity:
+            raise RemoteError("连接目标与批准事实不一致")
+        validate_connection_preflight(repo, expected)
     existing = run(["git", "remote", "get-url", "--", name], cwd=repo, check=False)
     if existing.returncode == 0:
         if normalize_remote_url(existing.stdout.strip()) != url_identity:
@@ -162,14 +171,38 @@ def remote_facts(repo: Path, name: str, branch: str | None = None) -> dict[str, 
     }
 
 
-def push_branch(repo: Path, name: str, branch: str) -> dict[str, Any]:
+def push_branch(
+    repo: Path, name: str, branch: str, *, expected: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """批准版固定源 OID 和传输目标，旧三参数调用保持兼容。"""
     name = validate_remote_name(repo, name, require_configured=True)
     branch = _validate_branch(repo, branch)
     if _branch(repo) != branch:
         raise RemoteError("当前分支与 Push 计划不一致")
-    facts = remote_facts(repo, name, branch)
-    if facts.get("behind", 0):
-        raise RemoteError("远端领先或已分叉，拒绝非 fast-forward Push")
+    target, source = name, "HEAD"
+    if expected is not None:
+        from .remote_preflight import validate_push_preflight
+
+        if expected.get("remote") != name or expected.get("branch") != branch:
+            raise RemoteError("Push 目标与批准事实不一致")
+        validate_push_preflight(repo, expected)
+        source = expected["local_head"]
+        target = run(["git", "remote", "get-url", "--push", "--", name], cwd=repo).stdout.strip()
+        if normalize_remote_url(target) != expected["url_identity"]:
+            raise RemoteError("Push endpoint 已漂移，请重新预览")
+        if expected["remote_oid"] == source:
+            upstream = run(["git", "rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{upstream}"], cwd=repo, check=False).stdout.strip()
+            if upstream != f"{name}/{branch}":
+                failure = RemoteError("远端 OID 已相同但上游未匹配；请先单独配置 upstream 并重新预览")
+                failure.before_remote_write = True
+                raise failure
+            return {"verified": True, "name": name, "branch": branch, "local": source, "remote": source, "upstream": upstream, "status": "already_synced", "commits": [], "url_identity": expected["url_identity"]}
+    else:
+        facts = remote_facts(repo, name, branch)
+        if facts.get("behind", 0):
+            raise RemoteError("远端领先或已分叉，拒绝非 fast-forward Push")
+    approved_oid = expected["local_head"] if expected is not None else run(["git", "rev-parse", "HEAD"], cwd=repo).stdout.strip()
+    url_identity = expected["url_identity"] if expected is not None else normalize_remote_url(run(["git", "remote", "get-url", "--push", "--", name], cwd=repo).stdout.strip())
     try:
         run(
             [
@@ -177,18 +210,25 @@ def push_branch(repo: Path, name: str, branch: str) -> dict[str, Any]:
                 "push",
                 "--set-upstream",
                 "--",
-                name,
-                f"HEAD:refs/heads/{branch}",
+                target,
+                f"{source}:refs/heads/{branch}",
             ],
             cwd=repo,
         )
     except CommandError as exc:
         raise RemoteError("Push 失败，未使用 force") from exc
-    local = run(["git", "rev-parse", "HEAD"], cwd=repo).stdout.strip()
-    remote = run(["git", "ls-remote", name, f"refs/heads/{branch}"], cwd=repo)
+    local = approved_oid
+    remote = run(["git", "ls-remote", "--", target, f"refs/heads/{branch}"], cwd=repo)
     remote_oid = remote.stdout.split()[0] if remote.stdout.split() else ""
     if remote_oid != local:
         raise RemoteError("Push 远端 postflight 不一致")
+    if expected is not None:
+        # 固定 OID 作为 src 时 Git 不推断本地分支，显式复验后设置上游。
+        current_target = run(["git", "remote", "get-url", "--push", "--", name], cwd=repo).stdout.strip()
+        if normalize_remote_url(current_target) != expected["url_identity"]:
+            raise RemoteError("Push 已发生，但 Remote endpoint 漂移，需只读核验")
+        run(["git", "fetch", "--prune", "--", name], cwd=repo)
+        run(["git", "branch", f"--set-upstream-to={name}/{branch}", "--", branch], cwd=repo)
     upstream = run(
         ["git", "rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{upstream}"],
         cwd=repo,
@@ -203,6 +243,7 @@ def push_branch(repo: Path, name: str, branch: str) -> dict[str, Any]:
         "local": local,
         "remote": remote_oid,
         "upstream": upstream,
+        "url_identity": url_identity,
     }
 
 

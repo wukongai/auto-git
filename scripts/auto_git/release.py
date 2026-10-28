@@ -17,6 +17,12 @@ class ReleaseError(RuntimeError):
     pass
 
 
+class ReleaseReadUnavailable(ReleaseError):
+    """远程读取失败，不等于已读取到确定不匹配。"""
+
+    verification_unavailable = True
+
+
 def load_release_profile(path: Path) -> dict[str, Any]:
     """从项目 `.auto-git.toml` 读取显式 release profile。"""
     if not path.is_file():
@@ -60,19 +66,19 @@ def _local_tag_facts(repo: Path, tag: str) -> dict[str, Any]:
     }
 
 
-def _remote_tag_facts(repo: Path, remote: str, tag: str) -> dict[str, Any]:
+def _remote_tag_facts(repo: Path, remote: str, tag: str, *, endpoint: str | None = None) -> dict[str, Any]:
     from .remote import validate_remote_name
 
     remote = validate_remote_name(repo, remote, require_configured=True)
     tag_ref = f"refs/tags/{tag}"
     peeled_ref = f"{tag_ref}^{{}}"
     result = run(
-        ["git", "ls-remote", "--tags", remote, tag_ref, peeled_ref],
+        ["git", "ls-remote", "--tags", "--", endpoint or remote, tag_ref, peeled_ref],
         cwd=repo,
         check=False,
     )
     if result.returncode:
-        raise ReleaseError(f"无法读取 Remote {remote} 的 Release 状态")
+        raise ReleaseReadUnavailable(f"无法读取 Remote {remote} 的 Release 状态")
     refs: dict[str, str] = {}
     for line in result.stdout.splitlines():
         fields = line.split(maxsplit=1)
@@ -299,7 +305,7 @@ def _github_tag_facts(
         check=False,
     )
     if reference.returncode:
-        raise ReleaseError("无法读取明确 GitHub 仓库的 Tag ref")
+        raise ReleaseReadUnavailable("无法读取明确 GitHub 仓库的 Tag ref")
     try:
         reference_payload = json.loads(reference.stdout)
         reference_object = reference_payload["object"]
@@ -322,7 +328,7 @@ def _github_tag_facts(
         check=False,
     )
     if annotated.returncode:
-        raise ReleaseError("无法读取明确 GitHub 仓库的 annotated Tag object")
+        raise ReleaseReadUnavailable("无法读取明确 GitHub 仓库的 annotated Tag object")
     try:
         annotated_payload = json.loads(annotated.stdout)
         target_object = annotated_payload["object"]

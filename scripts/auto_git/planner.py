@@ -11,6 +11,7 @@ from uuid import uuid4
 
 from .git_facts import inspect_repo
 from .runner import run
+from .repository_safety import UnsafeRepositoryError, ensure_safe_repository
 from .schema import SCHEMA_VERSION, hash_payload
 
 
@@ -187,6 +188,8 @@ def _validate_action_params(
     elif action == "push":
         from .remote import RemoteError, _validate_branch, validate_remote_name
 
+        _validate_commands(normalized.get("regression", []), "regression")
+
         try:
             validate_remote_name(
                 repo,
@@ -325,6 +328,12 @@ def create_plan(
     if action not in SUPPORTED_ACTIONS:
         raise PlanError(f"不支持的 action：{action}")
     facts = inspect_repo(repo)
+    if facts["is_repo"] and Path(repo).expanduser().resolve() != Path(facts["path"]):
+        raise PlanError("目标路径属于父仓库；请明确使用实际仓库根目录重新确认")
+    try:
+        ensure_safe_repository(facts, action)
+    except UnsafeRepositoryError as exc:
+        raise PlanError(str(exc)) from exc
     if action != "init" and not facts["is_repo"]:
         raise PlanError("目标不是 Git 仓库")
     repo_path = Path(facts["path"])
@@ -333,6 +342,21 @@ def create_plan(
         repo_path,
         params or {},
     )
+    # 远端事实必须在用户批准之前固定；读取后的本地事实重新纳入指纹。
+    try:
+        if action == "push":
+            from .remote_preflight import build_push_preflight
+            normalized_params["remote_preflight"] = build_push_preflight(
+                repo_path, normalized_params["remote"], normalized_params["branch"],
+            )
+        elif action == "remote_connect":
+            from .remote_preflight import build_connection_preflight
+            normalized_params["remote_preflight"] = build_connection_preflight(
+                repo_path, normalized_params["name"], normalized_params["url"],
+            )
+    except RuntimeError as exc:
+        raise PlanError(str(exc)) from exc
+    facts = inspect_repo(repo_path)
     summary, risk, postconditions, rollback = _ACTION_CONTRACT[action]
     now = datetime.now(timezone.utc)
     plan = {
@@ -378,5 +402,22 @@ def validate_plan(
         raise PlanError("plan hash 不匹配")
     if current_repo is not None:
         current = inspect_repo(current_repo)
+        try:
+            ensure_safe_repository(current, plan["action"])
+        except UnsafeRepositoryError as exc:
+            raise PlanError(str(exc)) from exc
         if current["fingerprint"] != plan.get("precondition_fingerprint"):
             raise PlanError("仓库事实已漂移")
+        if plan["action"] in {"push", "remote_connect"}:
+            snapshot = plan.get("params", {}).get("remote_preflight")
+            if not isinstance(snapshot, dict):
+                raise PlanError("旧计划缺少远程批准事实，请重新预览")
+            try:
+                if plan["action"] == "push":
+                    from .remote_preflight import validate_push_preflight
+                    validate_push_preflight(Path(current["path"]), snapshot)
+                else:
+                    from .remote_preflight import validate_connection_preflight
+                    validate_connection_preflight(Path(current["path"]), snapshot)
+            except RuntimeError as exc:
+                raise PlanError(str(exc)) from exc

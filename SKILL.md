@@ -18,9 +18,10 @@ record 和 verification record。只有 postflight 与目标事实一致时才�
 
 ## 固定工作流
 
-1. 运行 `scripts/auto_git.py doctor --repo <path> --json`，检查 Python、Git、gh 和
+1. 从已发现的Skill根目录，以Python 3.11+运行
+   `python3 <skill-root>/scripts/auto_git.py doctor --repo <path> --json`，检查 Python、Git、gh 和
    identity；缺能力时读取 [安装策略](references/install.md)。
-2. 运行 `scripts/auto_git.py inspect --repo <path> --json`，以 porcelain v2/NUL、
+2. 运行 `python3 <skill-root>/scripts/auto_git.py inspect --repo <path> --json`，以 porcelain v2/NUL、
    HEAD、分支、操作中状态和 fingerprint 为事实源。
 3. 按用户目标生成 immutable plan。先展示文件范围、回归、风险、恢复路径和本阶段
    副作用；用户未确认同一 plan hash 时停止。
@@ -32,6 +33,9 @@ record 和 verification record。只有 postflight 与目标事实一致时才�
 详细操作读取 [工作流](references/workflow.md)、[安全边界](references/safety.md)；
 发布任务还要读取 [Release](references/release.md)。不要把这些 reference 全量复述
 给用户，只加载当前阶段需要的部分。
+
+检查及结果反馈读取[安全核验与继续方式](references/verification-status.md)。展示真实文件范围、
+实际检查、本地保存和远端核对状态；`unknown/partial`必须保留现场并说明未完成部分。
 
 ## 意图路由
 
